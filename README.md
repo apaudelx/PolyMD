@@ -116,8 +116,8 @@ python prompt_based_extraction.py
 **Configuration:**
 
 Edit the script to modify:
-- `input_dir`: Directory containing markdown files (default: "ground_truth_627")
-- `output_dir`: Output directory for JSON results (default: "predicted_627")
+- `input_dir`: Directory containing markdown files (default: "input_md")
+- `output_dir`: Output directory for JSON results (default: "output")
 - API model: Uses "sonar" model from Perplexity
 
 **Output:**
