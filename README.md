@@ -10,7 +10,7 @@ The codebase implements a multi-stage pipeline:
 2. **Metadata Retrieval** (`fetch_metadata_from_doi.py`): Fetches abstracts and other metadata from DOIs
 3. **Abstract Classification** (`one_shot_classifier.py`): Classifies abstracts to identify papers relevant to MD simulation of polymers
 4. **Information Extraction** (`prompt_based_extraction.py`): Uses LLM-based extraction to extract numerical simulation data from articles
-
+5. **Verify Extracted Data** (`verify_extracted_data.py`): Verification based on model uncertanity
 ## Prerequisites
 
 ### Python Version
@@ -133,6 +133,62 @@ Edit the script to modify:
 - Young's Modulus (GPa)
 - Diffusion Coefficient (m²/s)
 - Viscosity (Pa s)
+
+### Step 5: Verify Extracted Data
+
+This script verifies the accuracy of extracted data by comparing it against the original markdown files using two AI models (GPT-4o-mini and DeepSeek).
+
+**Before running:**
+1. Set the `OpenAI_API_KEY` and `DEEPSEEK_API_KEY` environment variables
+2. Ensure `json_outputs/md_file_data.json` exists (contains extracted data)
+3. Ensure `comparison_set_hpc/` directory exists with corresponding markdown files
+
+```bash
+export OpenAI_API_KEY="your_openai_api_key"
+export DEEPSEEK_API_KEY="your_deepseek_api_key"
+python verify_extracted_data.py
+```
+
+**Configuration:**
+
+The script uses the following paths (edit in the script if needed):
+- `json_outputs/md_file_data.json`: Input JSON file with extracted data
+- `comparison_set_hpc/`: Directory containing markdown files organized by folder number
+- `json_outputs/verification_results.csv`: Output CSV file with verification results
+
+**Models:**
+- GPT-4o-mini (via OpenAI API)
+- DeepSeek (via DeepSeek API)
+
+**Output:**
+- `json_outputs/verification_results.csv`: CSV file with columns:
+  - `md_file`: Name of the markdown file
+  - `polymer_name`: Extracted polymer name
+  - `force_field`: Extracted force field
+  - `properties`: Property name
+  - `value`: Extracted value
+  - `ai_model_1_answer`: Verification result from GPT-4o-mini ("YES", "NO", or "ERROR")
+  - `ai_model_2_answer`: Verification result from DeepSeek ("YES", "NO", or "ERROR")
+  - `notes_model_1`: Reasoning from GPT-4o-mini
+  - `notes_model_2`: Reasoning from DeepSeek
+
+**Verification Criteria:**
+
+The script verifies:
+1. Whether the property was actually studied for the specified polymer-force field combination
+2. Whether the extracted numerical value matches the article value after unit conversion
+
+**Unit Conversion:**
+
+The script automatically handles unit conversions when verifying values:
+- Density: kg/m³ → g/cm³ (divide by 1000)
+- Temperature: °C → K (add 273.15)
+- Radius: Å → nm (divide by 10)
+- Modulus: MPa → GPa (divide by 1000)
+- Diffusion: cm²/s → m²/s (divide by 10000)
+- Viscosity: mPa·s → Pa·s (divide by 1000)
+
+**Note:** The script includes rate limiting (1 second delay between API calls) and retry logic for API errors.
 
 ## Helper Scripts
 
