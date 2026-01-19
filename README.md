@@ -136,7 +136,7 @@ Edit the script to modify:
 
 ### Step 5: Verify Extracted Data
 
-This script verifies the accuracy of extracted data by comparing it against the original markdown files using two AI models (GPT-4o-mini and DeepSeek).
+This script verifies the accuracy of extracted data by comparing it against the original markdown files using two AI models (GPT-5.2 and DeepSeek-V3).
 
 **Before running:**
 1. Set the `OpenAI_API_KEY` and `DEEPSEEK_API_KEY` environment variables
