@@ -1,6 +1,6 @@
 # PolyMD Database
 
-This repository contains the code for the PolyMD paper, which automates the property and value extraction from relevant polymer science literatures. The pipeline includes DOI extraction from keywords, metadata retrieval, abstract classification, and LLM-based information extraction.
+This repository contains the code for PolyMD, an automated pipeline for extracting polymer property data from the literature using DOI retrieval, metadata collection, abstract classification, and LLM-based extraction.
 
 ## Overview
 
