@@ -156,10 +156,6 @@ The script uses the following paths (edit in the script if needed):
 - `comparison_set_hpc/`: Directory containing markdown files organized by folder number
 - `json_outputs/verification_results.csv`: Output CSV file with verification results
 
-**Models:**
-- GPT-4o-mini (via OpenAI API)
-- DeepSeek (via DeepSeek API)
-
 **Output:**
 - `json_outputs/verification_results.csv`: CSV file with columns:
   - `md_file`: Name of the markdown file
