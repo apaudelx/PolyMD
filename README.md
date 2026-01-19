@@ -18,7 +18,7 @@ The codebase implements a multi-stage pipeline:
 - Python 3.10+
 
 ### Python Requirements
- - requirements.txt
+ - All the requirements are contained in "requirements.txt"
 
 ### R Dependencies (for analysis scripts)
 
