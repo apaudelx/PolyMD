@@ -1,6 +1,6 @@
-# PolyMD Database Codebase
+# PolyMD Database
 
-This repository contains the code for the PolyMD paper, which automates the property and value extraction from relevant polymer science literatures. The pipeline includes DOI extraction from keywords, metadata retrieval, abstract classification, and LLM-based information extraction.
+This repository contains the code for PolyMD, an automated pipeline for extracting polymer property data from the literature using DOI retrieval, metadata collection, abstract classification, and LLM-based extraction.
 
 ## Overview
 
@@ -18,7 +18,7 @@ The codebase implements a multi-stage pipeline:
 - Python 3.10+
 
 ### Python Requirements
- - requirements.txt
+ - All the requirements are contained in "requirements.txt"
 
 ### R Dependencies (for analysis scripts)
 
@@ -52,7 +52,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 3. Install Python dependencies:
 ```bash
-pip install requests pandas transformers torch openai pymupdf
+pip install -r requirements.txt
 ```
 
 4. Install R packages (if using analysis scripts):
@@ -116,8 +116,8 @@ python prompt_based_extraction.py
 **Configuration:**
 
 Edit the script to modify:
-- `input_dir`: Directory containing markdown files (default: "ground_truth_627")
-- `output_dir`: Output directory for JSON results (default: "predicted_627")
+- `input_dir`: Directory containing markdown files (default: "input_md")
+- `output_dir`: Output directory for JSON results (default: "output")
 - API model: Uses "sonar" model from Perplexity
 
 **Output:**
