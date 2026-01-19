@@ -52,7 +52,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 3. Install Python dependencies:
 ```bash
-pip install requests pandas transformers torch openai pymupdf
+pip install -r requirements.txt
 ```
 
 4. Install R packages (if using analysis scripts):
