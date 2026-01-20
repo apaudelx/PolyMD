@@ -9,7 +9,7 @@ font_add_google("Lato", "lato")
 showtext_auto(FALSE)
 
 # Read data
-df <- read.csv("input.csv", stringsAsFactors = FALSE)
+df <- read.csv("/Users/abinshakya/Documents/1_1_POLYDATABASE_FINAL/violin_plot_input_2.csv", stringsAsFactors = FALSE)
 
 # Clean Data
 df_clean <- df %>%
@@ -69,7 +69,9 @@ create_violin_plot <- function(data_sub, use_log = FALSE, prop_name = "") {
   # Central 70% range
   p15 <- quantile(data_sub$numeric_value, 0.25, na.rm = TRUE)
   p85 <- quantile(data_sub$numeric_value, 0.75, na.rm = TRUE)
-  if (use_log) {
+  if (prop_name == "Glass Transition Temperature (K)") {
+    label_text <- sprintf("[%.1f, %.1f]", p15, p85)
+  } else if (use_log) {
     label_text <- sprintf("[%.2g, %.2g]", p15, p85)
   } else {
     label_text <- sprintf("[%.1f, %.1f]", p15, p85)
@@ -139,7 +141,9 @@ create_violin_plot <- function(data_sub, use_log = FALSE, prop_name = "") {
       labs(y = paste0(prop_name, "\n(log scale)"))
   } else {
     p <- p +
-      scale_y_continuous(labels = label_number(accuracy = 1))
+      scale_y_continuous(
+        labels = label_number(accuracy = 0.1)
+      )
   }
   
   p
