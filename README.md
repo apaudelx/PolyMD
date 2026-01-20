@@ -4,7 +4,7 @@ This repository contains the code for PolyMD, an automated pipeline for extracti
 
 ## Overview
 
-The codebase implements a multi-stage pipeline:
+The codebase implements a multi-stage pipeline, the following code are in /src directory:
 
 1. **DOI Extraction** (`extract_doi_from_keywords.py`): Extracts relevant DOIs from external APIs using keyword queries
 2. **Metadata Retrieval** (`fetch_metadata_from_doi.py`): Fetches abstracts and other metadata from DOIs
