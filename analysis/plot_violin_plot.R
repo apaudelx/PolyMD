@@ -9,7 +9,7 @@ font_add_google("Lato", "lato")
 showtext_auto(FALSE)
 
 # Read data
-df <- read.csv("/Users/abinshakya/Documents/1_1_POLYDATABASE_FINAL/violin_plot_input_2.csv", stringsAsFactors = FALSE)
+df <- read.csv("input.csv", stringsAsFactors = FALSE)
 
 # Clean Data
 df_clean <- df %>%
