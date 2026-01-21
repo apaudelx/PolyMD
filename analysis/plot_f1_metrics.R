@@ -1,22 +1,17 @@
-# ============================================
-#   F1, Precision, Recall Metrics Bar Plot
-#   (Strict 2-line limits for x-axis)
-# ============================================
+#F1, Precision, Recall Metrics Bar Plot
 library(ggplot2)
 library(tidyr)
 library(dplyr)
 
-# ---------------------------
 # Create the data frame
-# ---------------------------
 metrics_data <- data.frame(
   property_name = c(
-    "Density\n(g/cm³)",                      # 2 lines: Name / Unit
-    "Diffusion\nCoefficient (m²/s)",         # 2 lines: Diffusion / Coefficient + Unit
-    "Glass Transition\nTemperature (K)",     # 2 lines: Glass Transition / Temp + Unit
-    "Radius of\nGyration (nm)",              # 2 lines: Radius of / Gyration + Unit
-    "Viscosity\n(Pa s)",                     # 2 lines: Name / Unit
-    "Young's Modulus\n(GPa)",                # 2 lines: Name / Unit
+    "Density\n(g/cm³)",                      
+    "Diffusion\nCoefficient (m²/s)",         
+    "Glass Transition\nTemperature (K)",     
+    "Radius of\nGyration (nm)",              
+    "Viscosity\n(Pa s)",                     
+    "Young's Modulus\n(GPa)",                
     "Force Field",
     "Polymer System"
   ),
@@ -25,10 +20,7 @@ metrics_data <- data.frame(
   F1_Score = c(0.9693, 0.7416, 0.9055, 0.9172, 0.9846, 0.9339, 0.9962, 0.9993)
 )
 
-# ---------------------------
 # Define order of properties
-# ---------------------------
-# NOTE: Must match the strings in metrics_data exactly!
 property_order <- c(
   "Polymer System",
   "Force Field",
@@ -40,9 +32,7 @@ property_order <- c(
   "Viscosity\n(Pa s)"
 )
 
-# -----------------------
 # Publication color palette
-# -----------------------
 pub_colors <- list(
   origin = c("#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"),
   composition = c("#6A4C93", "#FF595E"),
@@ -51,9 +41,7 @@ pub_colors <- list(
   accent = "#3498DB"
 )
 
-# ---------------------------
 # Reshape data for ggplot
-# ---------------------------
 metrics_long <- metrics_data %>%
   mutate(property_name = factor(property_name, levels = property_order)) %>%
   pivot_longer(
@@ -63,18 +51,14 @@ metrics_long <- metrics_data %>%
   ) %>%
   mutate(Metric = factor(Metric, levels = c("Precision", "Recall", "F1_Score")))
 
-# ---------------------------
 # Define color palette 
-# ---------------------------
 pipeline_colors <- c(
   "Precision" = "#4472C4", 
   "Recall"    = "#ED7D31", 
   "F1_Score"  = "#70AD47" 
 )
 
-# ---------------------------
 # Create the plot
-# ---------------------------
 p <- ggplot(metrics_long, aes(x = property_name, y = Value, fill = Metric)) +
   geom_bar(
     stat = "identity",
@@ -123,7 +107,5 @@ p <- ggplot(metrics_long, aes(x = property_name, y = Value, fill = Metric)) +
     expand = c(0, 0)
   )
 
-# ---------------------------
 # Save as PNG
-# ---------------------------
 ggsave("f1_metric_plot.png", p, width = 9, height = 7, dpi = 300, bg = "white")
