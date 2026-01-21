@@ -1,16 +1,22 @@
+# ============================================
+#   F1, Precision, Recall Metrics Bar Plot
+#   (Strict 2-line limits for x-axis)
+# ============================================
 library(ggplot2)
 library(tidyr)
 library(dplyr)
 
-# Create data frame
+# ---------------------------
+# Create the data frame
+# ---------------------------
 metrics_data <- data.frame(
   property_name = c(
-    "Density (g/cm³)",
-    "Diffusion Coefficient (m²/s)",
-    "Glass Transition Temperature (K)",
-    "Radius of Gyration (nm)",
-    "Viscosity (Pa s)",
-    "Young's Modulus (GPa)",
+    "Density\n(g/cm³)",                      # 2 lines: Name / Unit
+    "Diffusion\nCoefficient (m²/s)",         # 2 lines: Diffusion / Coefficient + Unit
+    "Glass Transition\nTemperature (K)",     # 2 lines: Glass Transition / Temp + Unit
+    "Radius of\nGyration (nm)",              # 2 lines: Radius of / Gyration + Unit
+    "Viscosity\n(Pa s)",                     # 2 lines: Name / Unit
+    "Young's Modulus\n(GPa)",                # 2 lines: Name / Unit
     "Force Field",
     "Polymer System"
   ),
@@ -19,20 +25,24 @@ metrics_data <- data.frame(
   F1_Score = c(0.9693, 0.7416, 0.9055, 0.9172, 0.9846, 0.9339, 0.9962, 0.9993)
 )
 
+# ---------------------------
 # Define order of properties
+# ---------------------------
+# NOTE: Must match the strings in metrics_data exactly!
 property_order <- c(
   "Polymer System",
   "Force Field",
-  "Density (g/cm³)",
-  "Glass Transition Temperature (K)",
-  "Radius of Gyration (nm)",
-  "Young's Modulus (GPa)",
-  "Diffusion Coefficient (m²/s)",
-  "Viscosity (Pa s)"
+  "Density\n(g/cm³)",
+  "Glass Transition\nTemperature (K)",
+  "Radius of\nGyration (nm)",
+  "Young's Modulus\n(GPa)",
+  "Diffusion\nCoefficient (m²/s)",
+  "Viscosity\n(Pa s)"
 )
 
-
-# Color palatte
+# -----------------------
+# Publication color palette
+# -----------------------
 pub_colors <- list(
   origin = c("#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"),
   composition = c("#6A4C93", "#FF595E"),
@@ -41,8 +51,9 @@ pub_colors <- list(
   accent = "#3498DB"
 )
 
-
+# ---------------------------
 # Reshape data for ggplot
+# ---------------------------
 metrics_long <- metrics_data %>%
   mutate(property_name = factor(property_name, levels = property_order)) %>%
   pivot_longer(
@@ -52,15 +63,18 @@ metrics_long <- metrics_data %>%
   ) %>%
   mutate(Metric = factor(Metric, levels = c("Precision", "Recall", "F1_Score")))
 
-
-# Define color
+# ---------------------------
+# Define color palette 
+# ---------------------------
 pipeline_colors <- c(
-  "Precision" = "#4472C4",  # Blue
-  "Recall"    = "#ED7D31",  # Orange
-  "F1_Score"  = "#70AD47"   # Green
+  "Precision" = "#4472C4", 
+  "Recall"    = "#ED7D31", 
+  "F1_Score"  = "#70AD47" 
 )
 
-#Create the plot
+# ---------------------------
+# Create the plot
+# ---------------------------
 p <- ggplot(metrics_long, aes(x = property_name, y = Value, fill = Metric)) +
   geom_bar(
     stat = "identity",
@@ -82,19 +96,20 @@ p <- ggplot(metrics_long, aes(x = property_name, y = Value, fill = Metric)) +
   theme_minimal(base_size = 16, base_family = "Helvetica") +
   theme(
     plot.title = element_text(hjust = 0.5, size = 20, face = "plain", color = "#1F3A60"),
-    axis.text.x = element_text(angle = 45, hjust = 1, size = 16, face = "plain"),
+    
+    # lineheight 0.8 keeps the two lines close together
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 16, face = "plain", lineheight = 0.8),
+    
     axis.text.y = element_text(size = 16, face = "plain"),
     axis.title.x = element_text(size = 18, face = "plain", color = "#1F3A60"),
     axis.title.y = element_text(size = 18, face = "plain", color = "#1F3A60"),
     legend.position = "top",
     legend.text = element_text(size = 16, face = "plain", color = "#1F3A60"),
     
-    # Remove grid lines
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     
-    #Add ticks for both axes
-    axis.line.x = element_blank(),  # keep off since panel.border draws the frame
+    axis.line.x = element_blank(), 
     axis.ticks.x = element_line(color = pub_colors$secondary, linewidth = 0.8),
     axis.ticks.y = element_line(color = pub_colors$secondary, linewidth = 0.8),
     axis.ticks.length = unit(0.2, "cm"),
@@ -104,9 +119,11 @@ p <- ggplot(metrics_long, aes(x = property_name, y = Value, fill = Metric)) +
   ) +
   coord_cartesian(ylim = c(0, 1.0), clip = "off") +
   scale_y_continuous(
-    breaks = seq(0, 1, 0.2),     
+    breaks = seq(0, 1, 0.2), 
     expand = c(0, 0)
   )
 
-# Save png
+# ---------------------------
+# Save as PNG
+# ---------------------------
 ggsave("f1_metric_plot.png", p, width = 9, height = 7, dpi = 300, bg = "white")
